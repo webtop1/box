@@ -1,16 +1,23 @@
 'use strict';
-var app=angular.module('myApp', []);
-/*config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]);*/
 
+var fileApp = angular.module('fileApp', ['ngRoute']);
 
-app.controller('MyController',function($scope){
-  $scope.defaultname="hi";
-  $scope.username = 'World';
-  $scope.sayHello = function() {
-    $scope.greeting = 'Hello ' + $scope.username + '!';
-  };
-});
-
-
+fileApp.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+        when('/files', {
+          templateUrl: '../app/templates/file-main.html',
+          controller: 'filelistController'
+        }).
+        when('/share', {
+          templateUrl: '../app/templates/share.html',
+          controller: 'shareController'
+        }).
+        when('/files/self', {
+          templateUrl: '../app/templates/file-self.html',
+          controller: 'shareController'
+        }).
+        otherwise({
+          redirectTo: '/files'
+        });
+  }]);

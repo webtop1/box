@@ -1,66 +1,25 @@
 <!DOCTYPE html>
-<html>
-<head >
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title></title>
-  <link rel="stylesheet" href="app.css">
-  <script src="../lib/angular/1.3.9/angular.min.js"></script>
-  <script src="app.js"></script>
-  <script src="module/drag/drag.js"></script>
-  <script src="module/time/format.js"></script>
+<html ng-app="fileApp" content="text/html; charset=gb2312">
+<head>
+    <meta charset="gb2312">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="app.css" rel="stylesheet"/>
+    <script src="../app/components/jquery/dist/jquery.js"></script>
+    <script src="../app/components/angular/angular.js"></script>
+    <script src="../app/components/angular-route/angular-route.js"></script>
+    <script src="app.js"></script>
+    <script src="module/file/fileApp.js" charset="gb2312"></script>
+    <script src="module/file/fileService.js" charset="gb2312"></script>
+    <script src="module/file/fileDirective.js" charset="gb2312"></script>
 </head>
-<body>
-<div ng-app="myApp" >
-  <p>在输入框中尝试输入:</p>
-  <p>姓名: <input type="text" ng-model="name" class="ng-pristine ng-untouched ng-valid"></p>
-  <p ng-bind="name" class="ng-binding"></p>
-</div>
--------------------------------------
-<div id="index-user-wrapper" ng-controller="MyController">
-  Your name:{{defaultname}}
-  <input type="text" ng-model="username">
-  <input type="button" ng-click='sayHello()' value="greet" />
-  <hr>
-  {{greeting}}
+<body oncontextmenu="window.event.returnValue=false; return false;">
+<div id="file-head" class="file-head" ng-include="'templates/head.html'"></div>
+
+<div id="file-main" class="file-main">
+    <div class="file-main-left" ng-include="'templates/left.html'"></div>
+    <div ng-view ng-controller="filelistController"></div>
 </div>
 
-------------------------------------
-<div id="index-drag-wrapper" class="draggable" draggable style="width: 200px; height: 200px; background: #cccccc;">
-  <span>Drag ME</span>
-</div>
-
--------------------------------------
-<div  id="index-list-wrapper" ng-init="list = ['Chrome', 'Safari', 'Firefox', 'IE'] ">
-  <input ng-model="list" ng-list> <br>
-  <input ng-model="list" ng-list> <br>
-  <pre>list={{list}}</pre> <br>
-  <ol>
-    <li ng-repeat="item in list">
-      {{item}}
-    </li>
-  </ol>
-
-  Number formatting: {{ 1234567890 | number }} <br>
-  array filtering <input ng-model="predicate">
-  {{ list | filter:predicate | json }}
-
-</div>
-
-
---------------------
-<div id="index-time-wrapper" ng-controller="Ctrl2">
-  Date format: <input ng-model="format"> <hr/>
-  Current time is: <span my-current-time="format"></span>
-</div>
--------------
-
-<script>
-  angular.bootstrap(document.getElementById("index-user-wrapper"), ['myApp']);
-  angular.bootstrap(document.getElementById("index-drag-wrapper"), ['drag']);
-  angular.bootstrap(document.getElementById("index-list-wrapper"), ['myApp']);
-  angular.bootstrap(document.getElementById("index-time-wrapper"), ['time']);
-</script>
-
+<div id="file-footer" class="file-footer" ng-include="'templates/foot.html'"></div>
 </body>
 </html>

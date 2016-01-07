@@ -1,0 +1,68 @@
+ul,li {margin: 0px;padding: 0px;}
+
+html, body {
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+  font-size: 13px;
+}
+
+.file-head {
+  height: 10%;
+  background: dodgerblue;
+}
+
+.file-main {
+  height: 84.9%;
+}
+
+.file-main-left {
+  width: 200px;
+  background: #cccccc;
+  height: 100%;
+  float: left;
+}
+
+.file-main-right {
+  height: 100%;
+  float: right;
+}
+
+.file-footer {
+  height: 5%;
+  background: #efefef;
+}
+
+.file-main-head{ line-height: 40px;}
+/****file list start***/
+
+.file-list-item{line-height: 40px; background: #efefef; margin-top: 1px;}
+.file-list-item:hover{background: rgba(131, 190, 253, 0.74);}
+
+.icon {width: 16px; height: 16px; display: inline-block; cursor: pointer;}
+.folder {background: blue;}
+.file {background: #AA9D9D;}
+
+/****mouseenter****/
+.file-menus.mouseenter {display: none; }
+.file-menus.mouseenter li {display: inline-block; margin-left: 6px;text-decoration:underline; cursor: pointer;}
+
+/**contextmenu**/
+.file-menus.contextmenu {position: absolute; width: 150px; padding: 10px; background: #ffffff; border: solid 1px #666666;}
+.file-menus.contextmenu li {display: inline-block; list-style-type: none; line-height: 25px; cursor: pointer;}
+
+/**head-menus**/
+.file-menus.head-menus li {display: inline-block; margin-left: 6px;text-decoration:underline; cursor: pointer;}
+
+/*.file-menus .more ul{display: none}*/
+.file-menus .more{position: relative;}
+.file-menus .more ul {position: absolute;left: 0px;top: 18px;}
+.file-menus .more ul li{display: block;list-style: disc; background: brown;color: white;width: 100px; height: 25px;}
+
+/**file auth**/
+.preview .file-menus .preview{display: inline-block;}
+.download .file-menus .link{display: none;}
+.download .file-menus .download{display: none;}
+
+
+/****file list end***/

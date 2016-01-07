@@ -1,0 +1,8 @@
+<div class="file-list-item {{item.auth}}">
+<input type="checkbox" id={{item.neid}} ng-checked="isSelected(item.neid)"
+       ng-click="updateSelection($event,item.neid)" neid="{{item.neid}}" />
+    <span class="icon"></span>
+{{item.path}}:{{ item.updator}}:{{ item.size}}:{{ item.datetime}}
+&nbsp; {{item.modified|dateFormat:'yyyy-MM-dd HH:mm:ss'}}
+<span class="file-item-operate"></span>
+</div>

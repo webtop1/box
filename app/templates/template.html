@@ -1,0 +1,800 @@
+<!-- 模板 开始-->
+<!--文件管理 头部模板-->
+<script id="template_fileManager_head" type="text/ng-template">
+    <div class="fileManager_top">
+    	
+    	<div class="filenav-area">
+    		
+    	</div>
+    	<div id="moreNavList" class="moreNavList"></div>	
+    </div>
+    <div class="fileManager_bottom">
+    	
+    	<div class="header_bot">
+    		<div class="button-area action-{{cssAction}}">
+				<span id="upload_button" class="upload-{{{$language}}}" style="height: 32px;"></span>
+	            <span class="addfolder" title="{{{'新建文件夹'|language}}}"><i class="icon i-addfolder"></i>{{{'新建'|language}}}</span>
+	        </div>	              	        	
+ 			<span class="oper">
+            	<span class="operView"><i class="list-view list-view-on" title="{{{'列表显示'|language}}}"></i><i class="icon-view" title="{{{'图标显示'|language}}}"></i></span>
+                <span class="trash"><i class="icon i-trashBtn" title="{{{'显示已删除'|language}}}"></i></span>
+               {{{if $smarty.session.eventOpen}}}
+                <span class="dynamic show-dynamic-button dynamic-{{role}}">
+                	<i class="icon dynamic-icon" title="{{{'消息动态'|language}}}"></i>
+                	<span class="icon has-dynamic-icon"></span>
+                </span>
+               {{{/if}}}
+           	</span>
+        </div>
+    </div>
+    <div class="search-result">
+    	<span class="icon i-search"></span>{{{'搜索结果'|language}}}
+    	<span class="searchNav"></span>
+    </div>
+</script>
+
+<!--文件管理 文件列表头模板-->
+<script id="template_filelist_listheader" type="text/ng-template">
+    <div class="filelist-header">
+        <div class="select-all">
+            <input type="checkbox" id="item-selectAll"/><span class="updateTitle">{{{'文件名'|language}}}<i></i></span>
+        </div>
+        <span class="updateUser">{{{'更新者'|language}}}<i></i></span>
+		<span class="updateSize">{{{'大小'|language}}}<i></i></span>
+		<span class="updateData">{{{'更新时间'|language}}}<i></i></span>
+    </div>
+    <div class="filelist-header-auth"></div>
+</script>
+<!--文件管理 文件列表头模板-->
+<script id="template_filelist_listheader_favorite" type="text/ng-template">
+    <div class="filelist-header">
+        <div class="select-all">
+            <input type="checkbox" id="item-selectAll"/><span class="updateTitle">{{{'文件名'|language}}}<i></i></span>
+        </div>
+        <span class="updateUser">{{{'更新者'|language}}}<i></i></span>
+		<span class="updateSize">{{{'大小'|language}}}<i></i></span>
+		<span class="updateData">{{{'收藏时间'|language}}}<i></i></span>
+    </div>
+    <div class="filelist-header-auth"></div>
+</script>
+
+<!--文件列表 文件模板-->
+<script id="template_filelist_fileview" type="text/ng-template">
+    <div class="filelist-item" isfolder="{{isfolder}}">
+    	<div class="filelist-icon">
+			<span class="file-select"><input type="checkbox" class="item-checkbox"/></span>
+            <span class="file-area action-{{cssAction}}">
+                <img/>
+                <i class="file-icon icon-file {{typeIcon}}"></i>
+                <span class="lock-{{islocked}} image-{{isImage}}"></span>
+                <i class="iconLink-{{hasDelivery}}"></i>
+                <span class="file-info">
+                    <span class="file-name"><a class="display-name" title="{{title}}">{{&name}}</a>
+                    	<span class="history history-{{version}}">V{{version}}</span><span class="lock-{{islocked}}"></span><span class="favorite-{{is_bookmark}}"></span>
+                    </span>
+                </span>
+            </span>
+            <span class="file-operate action-{{cssAction}}">
+            	<span id="" class="preview"><i class="icon i-preview" title="{{{'预览'|language}}}"></i></span>
+				<span id="" class="edit"><i class="icon i-edit" title="{{{'编辑'|language}}}"></i></span>
+				<span id="" class="link"><i class="icon i-sendlink i-delivery-{{hasDelivery}}" title="{{{'{{deliveryTitle}}'|language}}}"></i></span>
+	            <span id="" class="download"><i class="icon i-download" title="{{{'下载'|language}}}"></i></span>
+                <span class="fileMore"><i class="icon i-more" title="{{{'查看更多'|language}}}"></i></span>
+                <ul>
+                    <li> <span id="" class="delete">{{{'删除'|language}}}</span></li>
+                    <li><span id="" class="favorite">{{{'收藏'|language}}}</span></li>
+                    <li><span id="" class="cancelfavorite">{{{'取消收藏'|language}}}</span></li>
+                    <li><span id="" class="rmShare delivery-{{hasDelivery}}">{{{'取消外链'|language}}}</span></li>
+                    <!--<li><span id="" class="label">{{{'添加/编辑标签'|language}}}</span></li>-->
+                    <li><span id="" class="rename">{{{'重命名'|language}}}</span></li>
+                	<li><span id="" class="copy">{{{'移动/复制'|language}}}</span></li>
+                	<li><span class="lock lock-{{islocked}} ">{{{'锁定'|language}}}</span></li>
+		            <li><span class="unlock lock-{{islocked}} lockAdmin-{{unlockAdmin}}">{{{'解锁'|language}}}</span></li>
+		            <li><span class="reqUnlock lock-{{islocked}} lockAdmin-{{unlockAdmin}}">{{{'请求解锁'|language}}}</span></li>
+		            <li><span class="history" >{{{'历史版本'|language}}}</span></li>
+                </ul>
+            </span>        		
+    	</div>
+		<div class="filelist-updateUser"><span title="{{updator}}">{{updator}}</span></div>
+		<div class="filelist-updateSize">{{size}}</div>
+		<div class="filelist-updateData">{{datetime}}</div>
+           <div class="filelist-context clearfix">{{&context}}</div>
+    </div>
+</script>
+<!--文件列表 已删除文件模板-->
+<script id="template_filelist_filedelete" type="text/ng-template">
+    <div class="filelist-item" isfolder="{{isfolder}}">
+    	<div class="filelist-icon">
+            <span class="file-select"><input type="checkbox" class="item-checkbox"/></span>
+            <span class="file-area">
+                <i class="file-icon icon-file {{typeIcon}}"></i>
+                <span class="file-info">
+                    <p class="file-name"><a class="display-name" title="{{name}}">{{&name}}</a></p>
+                </span>
+            </span>
+            <span class="file-operate">
+              	<span id="undo" class="undo"><i class="icon i-undo" title="{{{'还原'|language}}}"></i></span>
+				<span id="purge" class="purge"><i class="icon i-purge" title="{{{'彻底删除'|language}}}"></i></span>
+            </span>
+        </div>
+        <div class="filelist-updateUser"><span title="{{updator}}">{{updator}}</span></div>
+        <div class="filelist-updateSize">{{size}}</div>
+        <div class="filelist-updateData">{{datetime}}</div>
+        <div class="filelist-context clearfix">{{&context}}</div>
+    </div>
+</script>
+<!--文件列表 文件夹模板-->
+<script id="template_filelist_folderview" type="text/ng-template">
+    <div class="filelist-item" isfolder="{{isfolder}}">
+    	<div class="filelist-icon">
+            <span class="file-select"><input type="checkbox" class="item-checkbox"/></span>
+            <span class="file-area">
+                <i class="file-icon icon-file {{type}}"></i>
+                <i class="iconLink-{{hasDelivery}}"></i>
+                <span class="file-info">
+                    <p class="file-name"><a class="display-name" title="{{title}}">{{&filename}}</a><span class="favorite-{{is_bookmark}}"></span></p>
+                </span>
+            </span>
+            <span class="fileAttribute file-operate action-{{cssAction}}">
+            	<span id="" class="link"><i class="icon i-sendlink i-delivery-{{hasDelivery}}" title="{{{'{{deliveryTitle}}'|language}}}"></i></span>
+	            <span id="" class="download"><i class="icon i-download" title="{{{'打包下载'|language}}}"></i></span>
+	            <span id="" class="auth"><i class="icon i-auth" title="{{#isshared}}{{{'共享管理'|language}}}{{/isshared}}{{^isshared}}{{{auth_share_manage}}}{{/isshared}}"></i></span> 
+	            <span id="" class="exitshare"><i class="icon i-exitshare" title="{{{'退出共享'|language}}}"></i></span>
+                <span class="fileMore"><i class="icon i-more" title="{{{'查看更多'|language}}}"></i></span>
+                <ul>
+					<!--<li><span id="" class="label">{{{'添加/编辑标签'|language}}}</span></li>-->
+                    <li><span id="" class="delete">{{{'删除'|language}}}</span></li>
+                    <li><span id="" class="favorite">{{{'收藏'|language}}}</span></li>
+                    <li><span id="" class="cancelfavorite">{{{'取消收藏'|language}}}</span></li>
+                    <li><span id="" class="transfer">{{{'移交权限'|language}}}</span></li>
+                    <li><span id="" class="cancelauth">{{{'取消共享'|language}}}</span></li>
+                    <li><span id="" class="rmShare delivery-{{hasDelivery}}">{{{'取消外链'|language}}}</span></li>
+                    <li><span id="" class="cleanup">{{{'设置定期清理'|language}}}</span></li>
+                    <li><span id="" class="rename">{{{'重命名'|language}}}</span></li>
+                	<li><span id="" class="copy">{{{'移动/复制'|language}}}</span></li>
+                </ul>
+            </span>
+      </div>
+        <div class="filelist-updateUser"><span title="{{updator}}">{{updator}}</span></div>
+        <div class="filelist-updateSize">&nbsp;&nbsp;-</div>
+        <div class="filelist-updateData">{{datetime}}</div>
+        <div class="filelist-context clearfix">{{&context}}</div>
+    </div>
+</script>
+<!--文件列表 已删除文件夹模板-->
+<script id="template_filelist_folderdelete" type="text/ng-template">
+    <div class="filelist-item" isfolder="{{isfolder}}">
+    	<div class="filelist-icon">
+            <span class="file-select"><input type="checkbox" class="item-checkbox"/></span>
+            <span class="file-area">
+                <i class="file-icon icon-file {{type}}"></i>
+                <span class="file-info">
+                    <p class="file-name"><a class="display-name" title="{{title}}">{{&filename}}</a></p>
+                </span>
+            </span>
+            <span class="file-operate">
+            	<span id="undo" class="undo"><i class="icon i-undo" title="{{{'还原'|language}}}"></i></span>
+				<span id="purge" class="purge"><i class="icon i-purge" title="{{{'彻底删除'|language}}}"></i></span>
+            </span>
+       </div>
+       
+        <div class="filelist-updateUser"><span title="{{updator}}">{{updator}}</span></div>
+        <div class="filelist-updateSize">-</div>
+        <div class="filelist-updateData">{{datetime}}</div>
+        <div class="filelist-context clearfix">{{&context}}</div>
+    </div>
+</script>
+
+<!--文件属性 文件夹详情/动态模板-->
+<script id="template_folderAttribute_detail" type="text/ng-template">
+    <div class="fileAttribute action-{{cssAction}}" isfolder="{{isfolder}}">
+    	<div class="file-top clearfix">
+            <div class="file-name" title="{{name}}">
+                {{filename}}
+            </div> 
+            <div class="file{{#isShare}}-share{{/isShare}}-user">
+                <p><i></i><span class="user-num"></span></p>
+            </div> 
+    	</div>
+        <div class="info-area">
+        	<div class="infoTab">
+        		<div class="infoTabHead">
+        			<span class="infoTabAuth active">{{{'详情'|language}}}</span>
+                    {{{if $smarty.session.eventOpen}}}
+        			<span class="infoTabDynamic">{{{'动态'|language}}}</span>
+        			<div class="has-dynamic-show-num" id="has-dynamic-show-num"><i></i></div>
+                    {{{/if}}}
+        		</div>
+        		<div class="infoAuth infoBox">
+        			<div>
+        				<p><span>{{{'类　　型'|language}}}：</span><span>{{category}}</span></p>
+        				<p><span>{{{'路　　径'|language}}}：</span><span title="{{&path}}">{{&path}}</span></p>
+        				<p><span>{{{'权　　限'|language}}}：</span><span>{{languageAction}}</span></p>
+                        <p class='creator'><span>{{{'创  建  者'|language}}}：</span><span title="{{creator}}">{{creator}}</span></p>
+                        <p class="owner"><span>{{{'拥  有  者'|language}}}：</span><span title="{{owner}}">{{owner}}</span></p>
+                        <p><span>{{{'更新时间'|language}}}：</span><span>{{datetime}}</span><a class="attribute"><span>{{{'更多'|language}}}</span><i class="icon i-arrow2"></i></a></p>
+                        <div class="foldermore">
+                        	<!--<p><span>{{{'大       小'|language}}}：</span><span>{{size}}</span></p>
+        					<p><span>{{{'包       含'|language}}}：</span><span>{{filenum}}文件{{foldernum}}{{{'文件夹'|language}}}</span><span class="disAttribute fr">{{{'收起'|language}}}<i class="icon i-arrow3"></i></span></p>-->
+                        </div>
+                        <div class="remarkEdit">{{{'备注'|language}}}：<span class="remark" title="{{desc}}"><pre>{{&desc}}</pre></span><a class="remark-edit" href="javascript:void(0)">{{{'编辑'|language}}}</a></div>
+                  <!--<a class="attribute" href="javascript:void(0)">{{{'详情'|language}}}...</a>-->
+        			</div>  
+        		</div>
+                {{{if $smarty.session.eventOpen}}}
+        		<div class="infoDynamic infoBox" id="dynamic-list">
+        			<div class="dynamic-toast">
+        				{{{'您没有查看该文件夹的权限'|language}}}
+        			</div>
+        			<div id="listBody"></div>
+        		</div>
+                {{{/if}}}
+        	</div>
+
+        </div>
+    </div>
+</script>
+<!--收藏--文件属性 文件夹详情/动态模板-->
+<script id="template_folderAttribute_favorite_detail" type="text/ng-template">
+	<div class="fileAttribute">
+		<div class="user-info">
+			<p>{{{'共有'|language}}} {{countAll}}{{{'个收藏文件'|language}}}</p>
+			<p>{{{'文件夹'|language}}}: {{folderCounts}}{{{'个'|language}}}</p>
+			<p>{{{'文件'|language}}}: {{fileCounts}}{{{'个'|language}}}</p>
+		</div>
+	</div>
+</script>
+
+<!--动态列表模板-->
+<script id="template_dynamic_list_body" type="text/ng-template">
+	<div class="dynamic-item">
+		<div class="time-title">
+			<i class="select-icon f-l"></i>
+			<div class="f-l date">{{date}}</div>
+			<div class="clear"></div>
+		</div>
+		<div class="line normal-line"></div>
+		{{#list}}
+		<div class="item" index="{{index}}">
+			<div class="dy-icon f-l dy-icon-{{iconType}}" uid="{{uid}}">
+			</div>
+			<div class="dy-content f-l">
+				<div class="title"><div class="dy-time f-r">{{time}}</div>{{#userName}}{{userName}}{{/userName}}{{^userName}}<font color="red">用户名为空了</font>{{/userName}}</div>
+				<div class="desc" title="{{#event_path}}{{pathname}}{{/event_path}}">{{#op_user_tab}}{{&op_user_tab}}{{/op_user_tab}}{{#event_desc}}{{&event_desc}}{{/event_desc}}
+					<div>
+						<div class="file-show-list">
+						{{#event_show_list}}
+						{{.}}&nbsp;
+						{{/event_show_list}}
+						</div>
+						{{event_mark}}
+						
+						{{#event_notice}}
+							{{title}}
+							{{content}}
+							<a href="javascript:;">展开</a>
+						{{/event_notice}}
+					</div>
+				</div>
+			</div>
+			
+			{{#event_file}}
+			<div class="file clear" neid="{{neid}}">
+				<div class="icon icon-file f-l {{type}}"></div>
+				<div class="info f-l">{{filename}}</div>
+				<div class="clear"></div>
+				<div class="hover"></div>
+			</div>
+			{{/event_file}}
+			
+			{{#event_delivery}}
+			<div class="file clear">
+				<div class="f-l icon i-link"></div>
+				<div class="info f-l"><a target="_blank" href="{{url}}">{{filename}}</a></div>
+			</div>
+			{{/event_delivery}}
+			
+			<div class="clear"></div>
+		</div>
+		<div class="line"></div>
+		{{/list}}
+	</div>
+</script>
+<script id="dynamic-event-file-hover-template" type="text/ng-template">
+	
+		{{#preview}}
+		<a class="i-preview" href="javascript:;">{{{'预览'|language}}}</a>
+		{{/preview}}
+		{{#download}}
+		<a class="i-download" href="javascript:;">{{{'下载'|language}}}</a>
+		{{/download}}
+	
+</script>
+<script id="dynamic-user-info-template" type="text/ng-template">
+	<div class="dynamic-user-info">
+		<div class="f-l info">
+			<div class="userinfo">
+				<p class="username">{{username}}</p>
+				<p class="email">{{{'邮箱'|language}}}:{{email}}</p>
+				<p class="phone">{{{'手机'|language}}}:{{phone}}</p>
+			</div>
+		</div>
+		<div class="f-l icon"></div>
+	</div>
+</script>
+<!--动态无数据模板-->
+<script id="template_dynamic_nodata_body" type="text/ng-template">
+	<div class="dynamic-item-empty">
+		<div class="nodata">{{{'暂时还没有动态'|language}}}</div>
+	</div>
+</script>
+<!--文件属性 文件夹模板-->
+<script id="template_folderAttribute" type="text/ng-template">
+    <div class="fileAttribute  file-operate action-{{cssAction}}" isfolder="{{isfolder}}">
+    	<div class="file-name">
+            <span>{{{'已经选择1个项'|language}}}</span>
+        </div>
+    	<span id="" class="link"><i class="icon i-sendlink i-delivery-{{hasDelivery}}" title="{{{'{{deliveryTitle}}'|language}}}"></i></span>
+    	<span id="" class="download"><i class="icon i-download" title="{{{'打包下载'|language}}}"></i></span>
+        <span id="" class="auth"><i class="icon i-auth" title="{{#isshared}}{{{'共享管理'|language}}}{{/isshared}}{{^isshared}}{{{auth_share_manage}}}{{/isshared}}"></i></span>
+        <span id="" class="exitshare"><i class="icon i-exitshare" title="{{{'退出共享'|language}}}"></i></span>
+        <span id="" class="delete"><i class="icon i-delete" title="{{{'删除'|language}}}"></i></span>
+        <span class="fileMore"><i class="icon i-more" title="{{{'查看更多'|language}}}"></i></span>
+        <ul>
+			<!--<li><span id="" class="label">{{{'添加/编辑标签'|language}}}</span></li>-->
+        	<li><span id="" class="transfer">{{{'移交权限'|language}}}</span></li>
+        	<li><span id="" class="cancelauth">{{{'取消共享'|language}}}</span></li>
+        	<li><span id="" class="rmShare delivery-{{hasDelivery}}">{{{'取消外链'|language}}}</span></li>
+        	<li><span id="" class="cleanup">{{{'设置定期清理'|language}}}</span></li>
+        	<li><span id="" class="favorite">{{{'收藏'|language}}}</span></li>
+        	<li><span id="" class="cancelfavorite">{{{'取消收藏'|language}}}</span></li>
+        	<li><span id="" class="rename">{{{'重命名'|language}}}</span></li>
+        	<li><span id="" class="copy">{{{'移动/复制'|language}}}</span></li>
+        </ul>
+    </div>
+</script>
+<!--收藏--文件属性 文件夹模板-->
+<script id="template_folderAttribute_favorite" type="text/ng-template">
+    <div class="fileAttribute  file-operate action-{{cssAction}}" isfolder="{{isfolder}}">
+    	<div class="file-name">
+            <span>{{{'已经选择1个项'|language}}}</span>
+        </div>
+    	<span id="" class="link"><i class="icon i-sendlink i-delivery-{{hasDelivery}}" title="{{{'{{deliveryTitle}}'|language}}}"></i></span>
+    	<span id="" class="download"><i class="icon i-download" title="{{{'打包下载'|language}}}"></i></span>
+        <span id="" class="auth"><i class="icon i-auth" title="{{#isshared}}{{{'共享管理'|language}}}{{/isshared}}{{^isshared}}{{{auth_share_manage}}}{{/isshared}}"></i></span>
+        <span id="" class="exitshare"><i class="icon i-exitshare" title="{{{'退出共享'|language}}}"></i></span>
+        <span class="fileMore"><i class="icon i-more" title="{{{'查看更多'|language}}}"></i></span>
+        <ul>
+			<!--<li><span id="" class="label">{{{'添加/编辑标签'|language}}}</span></li>-->
+        	<li><span id="" class="transfer">{{{'移交权限'|language}}}</span></li>
+        	<li><span id="" class="cancelauth">{{{'取消共享'|language}}}</span></li>
+        	<li><span id="" class="rmShare delivery-{{hasDelivery}}">{{{'取消外链'|language}}}</span></li>
+			<li><span id="" class="favorite">{{{'收藏'|language}}}</span></li>
+			<li><span id="" class="cleanup">{{{'设置定期清理'|language}}}</span></li>
+        </ul>
+    </div>
+</script>
+
+<!--文件属性 文件详情/动态模板-->
+<script id="template_fileAttribute_detail" type="text/ng-template">
+    <div class="fileAttribute action-{{cssAction}}" isfolder="{{isfolder}}">
+       <div class="file-top clearfix">
+            <div class="file-name" title="{{name}}">
+                {{name}}
+            </div> 
+    	</div>
+       <div class="info-area">
+           	<div class="infoTab">
+        		<div class="infoTabHead">
+                    <span class="infoTabAuth active">{{{'详情'|language}}}</span>
+                    {{{if $smarty.session.eventOpen}}}
+                    <span class="infoTabDynamic">{{{'动态'|language}}}</span>
+                    {{{/if}}}
+                </div>
+        		<div class="infoAuth infoBox">
+        			<div>
+        				<p><span>{{{'名称'|language}}}：</span><span title="{{name}}">{{name}}</span></p>
+        				<p><span>{{{'路径'|language}}}：</span><span title="{{&path}}">{{&path}}</span></p>
+        				<p><span>{{{'大小'|language}}}：</span><span>{{size}}</span></p>
+        				<p><span>{{{'创建者'|language}}}：</span><span title="{{creator}}">{{creator}}</span></p>
+        				<p><span>{{{'更新时间'|language}}}：</span><span>{{datetime}}</span></p>
+        				<div class="remarkEdit">{{{'备注'|language}}}：<span class="remark" title="{{desc}}"><pre>{{&desc}}</pre></span><a class="remark-edit" href="javascript:void(0)">{{{'编辑'|language}}}</a></div>
+        			</div>
+       			</div>
+        		<div class="infoDynamic infoBox" id="dynamic-list">
+        			<div id="listBody"></div>
+        		</div>
+       </div>
+    </div>
+</script>
+<!--文件属性 文件属性模板-->
+<script id="template_fileAttribute" type="text/ng-template">
+    <div class="fileAttribute file-operate action-{{cssAction}}" isfolder="{{isfolder}}">
+    	<div class="file-name">
+            <span>{{{'已经选择1个项'|language}}}</span>
+        </div>
+    	<span id="" class="preview"><i class="icon i-preview" title="{{{'预览'|language}}}"></i></span>
+        <span id="" class="edit"><i class="icon i-edit" title="{{{'编辑'|language}}}"></i></span>
+    	<span id="" class="link"><i class="icon i-sendlink i-delivery-{{hasDelivery}}" title="{{{'{{deliveryTitle}}'|language}}}"></i></span>
+	    <span id="" class="download"><i class="icon i-download" title="{{{'下载'|language}}}"></i></span>
+        <span id="" class="delete"><i class="icon i-delete" title="{{{'删除'|language}}}"></i></span>
+        <span class="fileMore"><i class="icon i-more" title="{{{'查看更多'|language}}}"></i></span>
+        <ul>
+            <li><span id="" class="favorite">{{{'收藏'|language}}}</span></li>
+            <li><span id="" class="cancelfavorite">{{{'取消收藏'|language}}}</span></li>
+            <li><span id="" class="rmShare delivery-{{hasDelivery}}">{{{'取消外链'|language}}}</span></li>
+        	<li><span id="" class="rename">{{{'重命名'|language}}}</span></li>
+        	<li><span id="" class="copy">{{{'移动/复制'|language}}}</span></li>
+        	<li><span class="lock lock-{{islocked}} ">{{{'锁定'|language}}}</span></li>
+            <li><span class="unlock lock-{{islocked}} lockAdmin-{{unlockAdmin}}">{{{'解锁'|language}}}</span></li>
+            <li><span class="reqUnlock lock-{{islocked}} lockAdmin-{{unlockAdmin}}">{{{'请求解锁'|language}}}</span></li>
+        	<li><span id="history-{{version}}" class="history history-{{version}}" >{{{'历史版本'|language}}}</span></li>
+        </ul>
+    </div>
+</script>
+<!--收藏--文件属性 文件详情/动态模板-->
+<script id="template_fileAttribute_favorite_detail" type="text/ng-template">
+	<div class="fileAttribute action-{{cssAction}}" isfolder="{{isfolder}}">
+		<div class="file-top clearfix">
+			<div class="file-name" title="{{name}}">
+				{{name}}
+			</div>
+		</div>
+		<div class="info-area">
+			<div class="infoTab">
+				<div class="infoTabHead">
+					<span class="infoTabAuth active">{{{'详情'|language}}}</span>
+					{{{if $smarty.session.eventOpen}}}
+					<span class="infoTabDynamic">{{{'动态'|language}}}</span>
+					{{{/if}}}
+				</div>
+				<div class="infoAuth infoBox">
+					<div>
+						<p><span>{{{'名称'|language}}}：</span><span title="{{name}}">{{name}}</span></p>
+						<p><span>{{{'路径'|language}}}：</span><span title="{{&path}}">{{&path}}</span></p>
+						<p><span>{{{'大小'|language}}}：</span><span>{{size}}</span></p>
+						<p><span>{{{'创建者'|language}}}：</span><span title="{{creator}}">{{creator}}</span></p>
+						<p><span>{{{'更新时间'|language}}}：</span><span>{{datetime}}</span></p>
+						<div class="remarkEdit">{{{'备注'|language}}}：<span class="remark" title="{{desc}}"><pre>{{&desc}}</pre></span><a class="remark-edit" href="javascript:void(0)">{{{'编辑'|language}}}</a></div>
+					</div>
+				</div>
+				<div class="infoDynamic infoBox" id="dynamic-list">
+					<div id="listBody"></div>
+				</div>
+			</div>
+		</div>
+</script>
+<!--收藏--文件属性 文件属性模板-->
+<script id="template_fileAttribute_favorite" type="text/ng-template">
+    <div class="fileAttribute file-operate action-{{cssAction}}" isfolder="{{isfolder}}">
+    	<div class="file-name">
+            <span>{{{'已经选择1个项'|language}}}</span>
+        </div>
+    	<span id="" class="preview"><i class="icon i-preview" title="{{{'预览'|language}}}"></i></span>
+        <span id="" class="edit"><i class="icon i-edit" title="{{{'编辑'|language}}}"></i></span>
+    	<span id="" class="link"><i class="icon i-sendlink i-delivery-{{hasDelivery}}" title="{{{'{{deliveryTitle}}'|language}}}"></i></span>
+	    <span id="" class="download"><i class="icon i-download" title="{{{'下载'|language}}}"></i></span>
+        <span class="fileMore"><i class="icon i-more" title="{{{'查看更多'|language}}}"></i></span>
+        <ul>
+            <li><span id="" class="favorite">{{{'收藏'|language}}}</span></li>
+            <li><span id="" class="cancelfavorite">{{{'取消收藏'|language}}}</span></li>
+            <li><span id="" class="rmShare delivery-{{hasDelivery}}">{{{'取消外链'|language}}}</span></li>
+        	<li><span class="lock lock-{{islocked}} ">{{{'锁定'|language}}}</span></li>
+            <li><span class="unlock lock-{{islocked}} lockAdmin-{{unlockAdmin}}">{{{'解锁'|language}}}</span></li>
+            <li><span class="reqUnlock lock-{{islocked}} lockAdmin-{{unlockAdmin}}">{{{'请求解锁'|language}}}</span></li>
+        	<li><span id="history-{{version}}" class="history history-{{version}}" >{{{'历史版本'|language}}}</span></li>
+        </ul>
+    </div>
+</script>
+
+<!--文件属性 已删除文件夹详情/动态模板-->
+<script id="template_folderAttribute_deleteDetail" type="text/ng-template">
+    <div class="fileAttribute action-{{cssAction}}" isfolder="{{isfolder}}">
+		<div class="file-top clearfix">
+	            <div class="file-name">
+	                {{name}}（{{deleted_ops}}）
+	            </div> 
+        	</div>
+           <div class="info-area">
+	           	<div class="infoTab">
+            		<div class="infoTabHead"><span class="infoTabAuth active">{{{'详情'|language}}}</span></div>
+            		<div class="infoAuth infoBox">
+            			<div>
+            				<p>{{{'上传者'|language}}}：{{creator}}</p>
+            				<p>{{{'更新时间'|language}}}：{{datetime}}</p>
+            			</div>
+           			</div>
+           </div>        	
+    </div>
+</script>
+    <!--文件属性 已删除文件动态/详情模板-->
+<script id="template_fileAttribute_filedelete" type="text/ng-template">
+    <div class="fileAttribute action-{{cssAction}}" isfolder="{{isfolder}}">
+    	<div class="file-top clearfix">
+	            <div class="file-name">
+	                {{name}}（{{deleted_ops}}）
+	            </div> 
+        	</div>
+           <div class="info-area">
+	           	<div class="infoTab">
+            		<div class="infoTabHead"><span class="infoTabAuth active">{{{'详情'|language}}}</span></div>
+            		<div class="infoAuth infoBox">
+            			<div>
+            				<p>{{{'路径：我的企业网盘'|language}}}{{&path}}</p>
+            				<p>{{{'大小'|language}}}：{{size}}</p>
+            				<p>{{{'上传者'|language}}}：{{creator}}</p>
+            				<p>{{{'更新时间'|language}}}：{{datetime}}</p>
+            			</div>
+           			</div>
+           </div> 
+    </div>
+</script>
+<!--文件属性 已删除文件模板-->
+<script id="template_folderAttribute_delete" type="text/ng-template">
+    <div class="fileAttribute file-operate  action-{{cssAction}}" isfolder="{{isfolder}}">
+    	<span id="undo" class="undo"><i class="icon i-undo" title="{{{'还原'|language}}}"></i></span>
+        <span id="purge" class="purge"><i class="icon i-delete" title="{{{'彻底删除'|language}}}"></i></span>
+    </div>
+</script>
+
+<!--文件属性 多选择已删除文件模板-->
+<script id="template_fileAttribute_multifiledelete" type="text/ng-template">
+    <div class="fileAttribute file-operate  action-{{cssAction}}" isfolder="{{isfolder}}">
+        <div class="file-name">
+            <span>{{{'已经选择{{count}}个项'|language}}}</span>
+        </div>
+        <span id="undo" class="undo"><i class="icon i-undo" title="{{{'还原'|language}}}"></i></span>
+        <span id="purge" class="purge"><i class="icon i-delete" title="{{{'彻底删除'|language}}}"></i></span>
+    </div>
+</script>
+<!--收藏--文件属性 多选择模板-->
+<script id="template_fileAttribute_favorite_multi" type="text/ng-template">
+    <div class="fileAttribute file-operate action-{{cssAction}}" isfolder="{{isfolder}}">
+        <div class="file-name">
+            <span>{{{'已经选择{{count}}个项'|language}}}</span>
+        </div>
+        <span id="cancelfavorite" class="cancelfavorite"><i class="icon i-cancelfavorite" title="{{{'取消收藏'|language}}}"></i></span>
+    </div>
+</script>
+<!--收藏--文件属性 多选择详情模板-->
+<script id="template_fileAttribute_favorite_multi_detail" type="text/ng-template">
+    <div class="fileAttribute file-operate action-{{cssAction}}" isfolder="{{isfolder}}">
+        <div class="file-name">
+            <span>{{{'已经选择{{count}}个项'|language}}}</span>
+        </div>
+    </div>
+</script>
+<!--文件属性 多选择模板-->
+<script id="template_fileAttribute_multi" type="text/ng-template">
+    <div class="fileAttribute file-operate action-{{cssAction}}" isfolder="{{isfolder}}">
+        <div class="file-name">
+            <span>{{{'已经选择{{count}}个项'|language}}}</span>
+        </div>
+        <span id="download" class="download"><i class="icon i-download" title="{{{'打包下载'|language}}}"></i></span>
+        <span id="copy" class="copy"><i class="icon i-copy" title="{{{'移动/复制'|language}}}"></i></span>
+        <span id="delete" class="delete"><i class="icon i-delete" title="{{{'删除'|language}}}"></i></span>
+		<span id="favorite" class="favorite"><i class="icon i-favorite" title="{{{'收藏'|language}}}"></i></span>
+		<span id="cancelfavorite" class="cancelfavorite"><i class="icon i-cancelfavorite" title="{{{'取消收藏'|language}}}"></i></span>
+    </div>
+</script>
+<!--文件属性 多选择详情模板-->
+<script id="template_fileAttribute_multi_detail" type="text/ng-template">
+    <div class="fileAttribute file-operate action-{{cssAction}}" isfolder="{{isfolder}}">
+        <div class="file-name">
+            <span>{{{'已经选择{{count}}个项'|language}}}</span>
+        </div>
+    </div>
+</script>
+<!--文件属性 初始化模板-->
+<script id="template_fileAttribute_init" type="text/ng-template">
+	<div class="fileAttribute">
+        <div class="user-info">
+	            <!--<p class="expire">{{{'服务截止日期'|language}}}：{{{intval($account_info.account.etime)|date_format:"%Y-%m-%d"}}}</p>-->
+	            <p class="space-bar"></p>
+	            <p class="space-part">{{{'已用空间'|language}}}：<span id="space-used"></span>  &nbsp;&nbsp; {{{'共'|language}}}：<span id="space-quota"></span></p>
+				{{{if ($smarty.session.user_role & $smarty.const.ROLE_BUSINESS) == $smarty.const.ROLE_BUSINESS}}}<p class="space-user">{{{'用户数'|language}}}：{{{$account_info.quota.user_num.used}}}{{{'个'|language}}} &nbsp;&nbsp; {{{'共'|language}}}：{{{$account_info.quota.user_num.limit}}}{{{'个'|language}}}</p>{{{/if}}}
+        </div>
+    </div>    	
+
+</script>
+
+<!--我的共享和收到的共享右侧默认模版-->
+<script id="template_fileAttribute_shared" type="text/ng-template">
+	<div class="fileAttribute">
+        <div class="user-info">
+        	<p>{{{'共有'|language}}}{{countAll}}{{{'个共享文件夹'|language}}}</p>
+        </div>
+    </div>
+</script>
+<!--文件上传列表 头部模板-->
+<script id="template_fileUploadList_head" type="text/ng-template">
+    <li class="list-li">
+        <div class="header">
+            <span class="file_file">{{{'文件'|language}}}</span>
+            <span class="file_process">{{{'进度'|language}}}</span>
+            <span class="file_speed averageSpeed">{{{'速度'|language}}}</span>
+            <span class="file_size sizeUploaded">{{{'大小'|language}}}</span>
+            <span class="file_remain timeRemaining">{{{'剩余时间'|language}}}</span>
+            <span class="file_delete icon_deleteFile"></span>
+        </div>
+    </li>
+</script>
+<!--文件上传列表 模板-->
+<script id="template_fileUploadList_item" type="text/ng-template">
+    <div class="content">
+        <span class="file_file">
+            <span class="file_icon type">{{&type}}</span>
+            <span class="file_name name path" title="{{&path}}">{{name}}</span>
+        </span>
+        <span class="file_process percentUploaded">{{percentUploaded}}</span>
+        <span class="file_speed averageSpeed">{{averageSpeed}}</span>
+        <span class="file_size sizeUploaded">{{sizeUploaded}}</span>
+        <span class="file_remain timeRemaining">{{timeRemaining}}</span>
+        <span class="file_delete operate">{{&operate}}</span>
+    </div>
+</script>
+<!--文件总体上传列表 模板-->
+<script id="template_fileUpload_totalprogress" type="text/ng-template">
+    <div class="content">
+        <span class="progress_no total">{{total}}</span>
+        <span class="progress_file">
+            <span class="file_icon type">{{&type}}</span>
+            <span class="file_name name" title="{{name}}"></span>
+        </span>
+        <span class="progress_percent percent">{{percent}}</span>
+    </div>
+</script>
+<!--没有任何文件 模板-->
+<script id="template_nofile" type="text/ng-template">
+    <div class="no-file clearfix action-{{cssAction}} {{empty_img}}">
+        <p class="title">
+            {{&empty_txt}}
+        </p>
+
+    </div>
+</script>
+<!--没有内容 模板-->
+<script id="template_noContet" type="text/ng-template">
+    <div class="no-file clearfix">
+        <p class="title">
+            {{{'没有内容！'|language}}}
+        </p>
+    </div>
+</script>
+
+<!--文件夹菜单 模板-->
+<script id="template_contextMenu_folder" type="text/ng-template">
+    <ul class="pop-menu" id="folderContextMenu">
+        <li id="folderClick" class="menu-item folderClick">{{{'打开'|language}}}</li>
+        <li id="share" class="menu-item share">{{{'外链分享'|language}}}</li>
+        <li id="rmShare" class="menu-item rmShare">{{{'取消外链'|language}}}</li>
+        <li id="download" class="menu-item download">{{{'打包下载'|language}}}</li>
+        <li id="auth" class="menu-item auth">{{{auth_share_manage}}}</li>
+        <li id="cancelauth" class="menu-item cancelauth">{{{'取消共享'|language}}}</li>
+        <li id="transfer" class="menu-item transfer">{{{'移交权限'|language}}}</li>       
+        <li id="exitshare" class="menu-item exitshare">{{{'退出共享'|language}}}</li>
+        <li id="cleanup" class="menu-item cleanup">{{{'设置定期清理'|language}}}</li> 
+        <li id="favorite" class="menu-item favorite">{{{'收藏'|language}}}</li>
+        <li id="cancelfavorite" class="menu-item cancelfavorite">{{{'取消收藏'|language}}}</li>
+        <li id="rename" class="menu-item rename">{{{'重命名'|language}}}</li>
+        <li id="copymove" class="menu-item copymove">{{{'移动/复制'|language}}}</li>
+        <li id="remove" class="menu-item remove">{{{'删除'|language}}}</li>  
+        <!--<hr>
+        <li id="attribute" class="menu-item">{{{'属性'|language}}}</li>       -->
+    </ul>
+</script>
+<!--文件菜单 模板-->
+<script id="template_contextMenu_file" type="text/ng-template">
+    <ul class="pop-menu" id="fileContextMenu">
+        <li id="preview" class="menu-item preview">{{{'预览'|language}}}</li>
+        <li id="share" class="menu-item share">{{{'外链分享'|language}}}</li>
+        <li id="rmShare" class="menu-item rmShare">{{{'取消外链'|language}}}</li>
+        <li id="download" class="menu-item download">{{{'下载'|language}}}</li>
+        <li id="favorite" class="menu-item favorite">{{{'收藏'|language}}}</li>
+        <li id="cancelfavorite" class="menu-item cancelfavorite">{{{'取消收藏'|language}}}</li>
+        <li id="rename" class="menu-item rename">{{{'重命名'|language}}}</li>
+        <li id="copymove" class="menu-item copymove">{{{'移动/复制'|language}}}</li>
+        <li id="history" class="menu-item">{{{'历史版本'|language}}}</li>
+        <li id="lock" class="menu-item lock">{{{'锁定'|language}}}</li>
+        <li id="unlock" class="menu-item unlock">{{{'解锁'|language}}}</li>
+        <li id="reqUnlock" class="menu-item reqUnlock">{{{'请求解锁'|language}}}</li>
+        <li id="remove" class="menu-item remove">{{{'删除'|language}}}</li> 
+        <!--<li id="attribute" class="menu-item">{{{'属性'|language}}}</li>-->
+    </ul>
+</script>
+<!--已删除文件菜单 模板-->
+<script id="template_contextMenu_filedelete" type="text/ng-template">
+    <ul class="pop-menu" id="fileDeleteContextMenu">
+        <li id="recover" class="menu-item recover">{{{'还原'|language}}}</li>
+        <li id="purge" class="menu-item purge" >{{{'彻底删除'|language}}}</li>
+    </ul>
+</script>
+<!--已删除文件夹菜单 模板-->
+<script id="template_contextMenu_folderdelete" type="text/ng-template">
+    <ul class="pop-menu" id="folderDeleteContextMenu">
+        <li id="recover" class="menu-item recover">{{{'还原'|language}}}</li>
+        <li id="purge" class="menu-item purge">{{{'彻底删除'|language}}}</li>
+    </ul>
+</script>
+<!--多选择菜单 模板-->
+<script id="template_contextMenu_multi" type="text/ng-template">
+    <ul class="pop-menu" id="multiContextMenu">
+        <li id="download" class="menu-item download">{{{'打包下载'|language}}}</li>
+        <li id="copymove" class="menu-item copymove">{{{'移动/复制'|language}}}</li>
+        <li id="remove" class="menu-item remove">{{{'删除'|language}}}</li>
+    </ul>
+</script>
+<!--多选择已删除菜单 模板-->
+<script id="template_contextMenu_multidelete" type="text/ng-template">
+    <ul class="pop-menu" id="multiDeleteContextMenu">
+    	<li id="recover" class="menu-item recover">{{{'还原'|language}}}</li>
+        <li id="purge" class="menu-item purge">{{{'彻底删除'|language}}}</li>
+    </ul>
+</script>
+
+
+<!--表格示例模板-->
+<script id="template_table_header" type="text/ng-template">
+    <li>
+        <span class="col1">{{{'列'|language}}}1</span>
+        <span class="col2">{{{'列'|language}}}2</span>
+        <span class="col3">{{{'列'|language}}}3</span>
+        <span class="col4">{{{'列'|language}}}4</span>
+    </li>
+</script>
+
+<script id="template_table_row" type="text/ng-template">
+    <li>
+        <span class="col1 name">{{name}}</span>
+        <span class="col2 gender">{{gender}}</span>
+        <span class="col3 age">{{age}}</span>
+        <span class="col4 address">{{address}}</span>
+    </li>
+</script>
+
+<!--高级搜索模板-->
+<script id="template_sinior_search" type="text/ng-template">
+	<div id="searchBox">
+		<div class="searchTop">
+			<label><input type="checkbox" id="desc"/> {{{'包含文件/文件夹的备注'|language}}}</label>			
+			<label>{{{'创建者'|language}}}</label><input type="text" class="creator"/>
+			<label>{{{'大小'|language}}}</label><input type="text" class="size"/> - <input type="text" class="size"/> MB
+		</div>
+		<div class="searchBot">
+            <div gldp-el="link_gldpStar" style="width:220px; height:170px;"></div>
+            <div gldp-el="link_gldpEnd" style="width:220px; height:170px;"></div>
+			<label>{{{'时 间'|language}}}</label>
+            <input type="text" class="date relative"  id="startDate" gldp-id="link_gldpStar" readonly="true"/> -
+            <input type="text" class="date relative" id="endDate" gldp-id="link_gldpEnd" readonly="true"/>
+			<label>{{{'类 型'|language}}}</label><select id="type">
+				<option value="">{{{'所有类型'|language}}} </option>
+				<option value=".folder">{{{'文件夹'|language}}}</option>
+				<option value="mp3;wma;ra;wav;mid;vqf;aif;au;dsp;cmf;cda;mod;iff;m3u;m4a;mpa;aiff">{{{'音频'|language}}}</option>
+				<option value="avi;mov;mpg;mp4;3gp;divx;dat;rm;rmvb;asf;wmv;vob;mkv;flv;3g2;asx">{{{'视频'|language}}} </option>
+				<option value="jpg;jpeg;png;bmp;gif;tiff;pcx;psd;thm;yuv">{{{'图片'|language}}}</option>
+				<option value="doc;docx;rtf">{{{'word文档'|language}}}</option>
+				<option value="pps;ppsx;ppt;pptx">{{{'PPT文档'|language}}}</option>
+				<option value="xls;xlsx;csv">{{{'Excel文档'|language}}}</option>
+				<option value="pdf">{{{'PDF文档'|language}}}</option>
+			</select>
+			{{{'<input type="button" value="确定"  id="gosearch"/>'|language}}}
+
+		</div>
+	</div>
+</script>
+<!--用户面板弹框-->
+<script id="template_userPanel" type="text/ng-template">
+	<div class="userSlide">
+       <div class="userContent">
+       		<ul>
+       			<li class="userSet"><a>{{{'个人设置'|language}}}</a></li>
+				<li class="help"><a href="/help/help_tab1.html" target="_blank">{{{'常见问题与帮助'|language}}}</a></li>
+       		</ul>
+       </div>
+       <s>
+           <i></i>
+       </s>
+    </div>
+</script>
+<!-- 模板 结束-->
+load complete ...

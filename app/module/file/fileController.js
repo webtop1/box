@@ -70,20 +70,20 @@ fileApp.controller('filelistController',['$scope','fileInfoService',function($sc
 
 fileApp.filter('dateFormat',function(){
     return function(input,formatStyle){
-      input=input.replace('T'," ").replace('+',' ');
-      var ar=input.split(" ");
-      return ar[0];
+        input=input.replace('T'," ").replace('+',' ');
+        var ar=input.split(" ");
+        return ar[0];
     };
 })
 
 
 /*fileApp.controller('templateController',['$scope','$templateCache','$rootScope',function(scope,cache,rootScope){
-    scope.templateCache=cache;
-    scope.$on('$includeContentLoaded', function(data) {
-        var html=data.currentScope.templateCache.get("template_userPanel");
-        console.log(html);
-    });
-}]);*/
+ scope.templateCache=cache;
+ scope.$on('$includeContentLoaded', function(data) {
+ var html=data.currentScope.templateCache.get("template_userPanel");
+ console.log(html);
+ });
+ }]);*/
 
 var _$=angular.element;
 

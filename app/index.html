@@ -1,16 +1,9 @@
 <!DOCTYPE html>
-<html ng-app="fileApp" content="text/html; charset=gb2312">
+<html  content="text/html; charset=gb2312">
 <head>
     <meta charset="gb2312">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="app.css" rel="stylesheet"/>
-    <script src="../app/components/jquery/dist/jquery.js"></script>
-    <script src="../app/components/angular/angular.js"></script>
-    <script src="../app/components/angular-route/angular-route.js"></script>
-    <script src="app.js"></script>
-    <script src="module/file/fileApp.js" charset="gb2312"></script>
-    <script src="module/file/fileService.js" charset="gb2312"></script>
-    <script src="module/file/fileDirective.js" charset="gb2312"></script>
 </head>
 <body oncontextmenu="window.event.returnValue=false; return false;">
 <div id="file-head" class="file-head" ng-include="'templates/head.html'"></div>
@@ -21,5 +14,17 @@
 </div>
 
 <div id="file-footer" class="file-footer" ng-include="'templates/foot.html'"></div>
+
+
+<script src="../app/components/jquery/dist/jquery.js"></script>
+<script src="../app/components/angular/angular.js"></script>
+<script src="../app/components/angular-route/angular-route.js"></script>
+<script src="app.js"></script>
+<script src="module/file/fileController.js" ></script>
+<script src="module/file/fileService.js" ></script>
+<script src="module/file/fileDirective.js" ></script>
+<script>
+    angular.bootstrap(document, ['fileApp']);
+</script>
 </body>
 </html>
